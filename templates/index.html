@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BimBam Buy AI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f7fb;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    }
+    h1 { margin-top: 0; }
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 12px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 12px;
+      background: #1f6feb;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { opacity: .92; }
+    .box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+    }
+    .erro {
+      background: #fff1f2;
+      border-color: #fecdd3;
+      color: #9f1239;
+    }
+    .fontes li { margin-bottom: 6px; }
+    .exemplos {
+      margin-top: 16px;
+      color: #555;
+      font-size: 14px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #e8f0fe;
+      color: #174ea6;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tag">Assistente de documentos da BimBam Buy</div>
+    <h1>BimBam Buy AI</h1>
+    <p>Faça perguntas sobre os PDFs da empresa. O sistema busca os trechos relevantes e usa o Gemini para responder.</p>
+
+    <form method="post">
+      <textarea name="pergunta" placeholder="Ex: Qual é a política de reembolsos?">{{ pergunta or "" }}</textarea>
+      <button type="submit">Perguntar</button>
+    </form>
+
+    {% if erro %}
+      <div class="box erro">
+        <strong>Erro:</strong> {{ erro }}
+      </div>
+    {% endif %}
+
+    {% if resposta %}
+      <div class="box">
+        <h2>Resposta</h2>
+        <p>{{ resposta }}</p>
+      </div>
+    {% endif %}
+
+    {% if fontes %}
+      <div class="box">
+        <h2>Fontes usadas</h2>
+        <ul class="fontes">
+          {% for fonte in fontes %}
+            <li>{{ fonte }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <div class="exemplos">
+      <strong>Exemplos:</strong>
+      <ul>
+        <li>Quais são os métodos de pagamento disponíveis?</li>
+        <li>Como funciona a política de reembolsos?</li>
+        <li>Como são os envios e prazos de entrega?</li>
+        <li>O que o programa de afiliados oferece?</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
