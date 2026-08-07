@@ -2,6 +2,10 @@
 
 Projeto de assistente para PDFs usando Flask e Gemini.
 
+## Demonstração
+
+https://bimbam-buy-ai.streamlit.app
+
 ## Estrutura
 
 - `app.py` — aplicação principal
@@ -9,7 +13,21 @@ Projeto de assistente para PDFs usando Flask e Gemini.
 - `.env` — chave Gemini
 - `requirements.txt` — dependências mínimas
 
-# Como instalar
+## Funcionamento
+
+### Tela inicial
+
+![alt text](image.png)
+
+### Exemplo de pergunta
+
+![alt text](image-1.png)
+
+### Exemplo de resposta
+
+![alt text](image-2.png)
+
+## Como instalar
 Clone o repositório e acesse a pasta:
 
 Bash
@@ -19,9 +37,9 @@ Crie e ative um ambiente virtual:
 
 Bash
 python -m venv venv
-# No Linux/macOS:
+## No Linux/macOS:
 source venv/bin/activate
-# No Windows:
+## No Windows:
 venv\Scripts\activate
 Instale as dependências:
 
