@@ -8,12 +8,9 @@ from functools import lru_cache
 from dotenv import load_dotenv
 import streamlit as st
 from google import genai
-from pypdf import PdfReader
 
-class SimpleDoc:
-    def __init__(self, page_content: str, metadata: dict):
-        self.page_content = page_content
-        self.metadata = metadata
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 load_dotenv()
 
@@ -85,34 +82,18 @@ def carregar_pdfs() -> list:
     documentos = []
     for arquivo in arquivos:
         st.info(f"Carregando: {arquivo.name}")
-        reader = PdfReader(str(arquivo))
-        for i, page in enumerate(reader.pages):
-            try:
-                text = page.extract_text() or ""
-            except Exception:
-                text = ""
-            documentos.append(SimpleDoc(page_content=text, metadata={"source": str(arquivo), "page": i}))
+        loader = PyPDFLoader(str(arquivo))
+        documentos.extend(loader.load())
 
     return documentos
 
 
 def dividir_documentos(documentos: list) -> list:
-    # Simple character-based splitter to avoid external dependency
-    chunk_size = 1000
-    chunk_overlap = 200
-    chunks = []
-    for doc in documentos:
-        text = doc.page_content or ""
-        start = 0
-        text_len = len(text)
-        while start < text_len:
-            end = start + chunk_size
-            chunk_text = text[start:end]
-            chunks.append(SimpleDoc(page_content=chunk_text, metadata=doc.metadata))
-            start = end - chunk_overlap
-            if start < 0:
-                start = 0
-    return chunks
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000,
+        chunk_overlap=200,
+    )
+    return splitter.split_documents(documentos)
 
 
 def construir_base_conhecimento() -> list[Trecho]:
